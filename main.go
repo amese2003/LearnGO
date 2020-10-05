@@ -4,11 +4,14 @@ import (
 	"fmt"
 )
 
-func main() {
-	names := map[string]string{"name": "asd", "age": "12"}
-	//fmt.Println(names)
+type person struct {
+	name    string
+	age     int
+	favFood []string
+}
 
-	for key, _ := range names {
-		fmt.Println(key)
-	}
+func main() {
+	favFood := []string{"kimchi", "ramen"}
+	nico := person{name: "nico", age: 18, favFood: favFood}
+	fmt.Println(nico)
 }
