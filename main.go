@@ -59,4 +59,10 @@ func main() {
 
 	fmt.Println(a, *b)
 
+	names := []string{"as", "df", "ad"}
+	names = append(names, "blabla")
+
+	//names[3] = "temp"
+
+	fmt.Println(names)
 }
