@@ -9,8 +9,12 @@ func multiply(a int, b int) int {
 	return a * b
 }
 
-func lenAndUpper(name string) (int, string) {
-	return len(name), strings.ToUpper(name)
+func lenAndUpper(name string) (length int, uppercase string) {
+	defer fmt.Println("I'm done")
+
+	length = len(name)
+	uppercase = strings.ToUpper(name)
+	return
 }
 
 func repeatString(name ...string) {
