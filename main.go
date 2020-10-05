@@ -21,9 +21,25 @@ func repeatString(name ...string) {
 	fmt.Println(name)
 }
 
-func main() {
-	totalLength, _ := lenAndUpper("nico")
-	fmt.Println(totalLength)
+func superAdd(numbers ...int) int {
+	var sum int = 0
 
-	repeatString("A", "BB", "CCC")
+	// for index, number := range numbers {
+	// 	fmt.Println(index, number)
+	// 	sum += number
+	// }
+
+	for i := 0; i < len(numbers); i++ {
+		sum += numbers[i]
+	}
+
+	return sum
+}
+
+func main() {
+	total := superAdd(1, 2, 3, 4, 5, 6, 7)
+
+	var test int = superAdd(total)
+
+	fmt.Println(test)
 }
