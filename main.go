@@ -37,8 +37,15 @@ func superAdd(numbers ...int) int {
 }
 
 func canDrink(age int) bool {
-	if koreanAge := age + 2; koreanAge < 18 {
+	// if koreanAge := age + 2; koreanAge < 18 {
+	// 	return false
+	// }
+
+	switch age {
+	case 10:
 		return false
+	case 18:
+		return true
 	}
 
 	return true
