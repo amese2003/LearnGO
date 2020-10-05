@@ -1,7 +1,11 @@
 package main
 
-import something "github.com/amese1225/LearnGO/SomeThing"
+import "fmt"
 
 func main() {
-	something.SayHello()
+	var name string = "test"
+	testing := "same"
+	name = "change"
+	fmt.Println(name)
+	fmt.Println(testing)
 }
