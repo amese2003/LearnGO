@@ -52,9 +52,11 @@ func canDrink(age int) bool {
 }
 
 func main() {
-	total := superAdd(1, 2, 3, 4, 5, 6, 7)
+	a := 2
+	b := &a
 
-	var test int = superAdd(total)
+	*b = 5
 
-	fmt.Println(test)
+	fmt.Println(a, *b)
+
 }
