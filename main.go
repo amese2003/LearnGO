@@ -1,17 +1,11 @@
 package main
 
 import (
+	accounts "Bank_dictionary/Accounts"
 	"fmt"
 )
 
-type person struct {
-	name    string
-	age     int
-	favFood []string
-}
-
 func main() {
-	favFood := []string{"kimchi", "ramen"}
-	nico := person{name: "nico", age: 18, favFood: favFood}
-	fmt.Println(nico)
+	account := accounts.NewAccount("tester")
+	fmt.Println(account)
 }
