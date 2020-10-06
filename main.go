@@ -22,6 +22,7 @@ func main() {
 	// fmt.Println("Received this message:", resultTwo)
 
 	for i := 0; i < len(people); i++ {
+		fmt.Println("waiting for", i)
 		fmt.Println(<-c)
 	}
 }
