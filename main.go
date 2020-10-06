@@ -6,16 +6,20 @@ import (
 )
 
 func main() {
-	go sexyCount("test")
-	go sexyCount("you")
-	time.Sleep(time.Second * 5)
+	c := make(chan string)
 
-}
+	people := [2]string{"nico", "flynn"}
 
-func sexyCount(person string) {
-	for i := 0; i < 10; i++ {
-		fmt.Println(person, "is sexy", i)
-		time.Sleep(time.Second)
+	for _, person := range people {
+		go isCheck(person, c)
 	}
 
+	fmt.Println(<-c)
+	fmt.Println(<-c)
+}
+
+func isCheck(person string, c chan bool) {
+	time.Sleep(time.Second * 2)
+	fmt.Println(person)
+	c <- true
 }
