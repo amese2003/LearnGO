@@ -2,29 +2,45 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"time"
 )
 
+type result struct {
+	url    string
+	status string
+}
+
 func main() {
-	c := make(chan string)
+	//results := make(map[string]string)
+	c := make(chan result)
+	urls := []string{
+		"https://www.airbnb.com/",
+		"https://www.google.com/",
+		"https://www.amazon.com/",
+		"https://www.reddit.com/",
+		"https://www.google.com/",
+		"https://soundcloud.com/",
+		"https://www.facebook.com/",
+		"https://www.instagram.com/",
+		"https://academy.nomadcoders.co/",
+	}
+	for _, url := range urls {
+		go hitURL(url, c)
+	}
+}
 
-	people := [2]string{"nico", "flynn"}
+func hitURL(url string, c chan<- result) {
+	fmt.Println("checking:", url)
 
-	for _, person := range people {
-		go isCheck(person, c)
+	resp, err := http.Get(url)
+	status := "OK"
+
+	if err != nil || resp.StatusCode >= 400 {
+		status = "FAILED"
 	}
 
-	// resultOne := <-c
-	// resultTwo := <-c
-
-	// fmt.Println("Waiting for Messages")
-	// fmt.Println("Received this message:", resultOne)
-	// fmt.Println("Received this message:", resultTwo)
-
-	for i := 0; i < len(people); i++ {
-		fmt.Println("waiting for", i)
-		fmt.Println(<-c)
-	}
+	c <- result{url: url, status: status}
 }
 
 func isCheck(person string, c chan string) {
