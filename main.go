@@ -2,21 +2,18 @@ package main
 
 import (
 	"fmt"
-	"log"
 
-	"github.com/amese1225/LearnGO/accounts"
+	"github.com/amese1225/LearnGO/mydict"
 )
 
 func main() {
-	account := accounts.NewAccount("tester")
-	account.Deposit(10)
-	fmt.Println(account)
+	dictionary := mydict.Dictionary{"first": "First word"}
 
-	err := account.Withdraw(5)
+	def, err := dictionary.Search("second")
 
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
+	} else {
+		fmt.Println(def)
 	}
-
-	fmt.Println(account)
 }
