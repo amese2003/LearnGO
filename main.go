@@ -1,13 +1,13 @@
 package main
 
 import (
-	"encoding/csv"
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 	"strings"
+
+	ccsv "github.com/tsak/concurrent-csv-writer"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -36,7 +36,7 @@ func main() {
 		jobs = append(jobs, extractedJobs...)
 	}
 
-	writeJob(jobs)
+	writeJobs(jobs)
 	fmt.Println("Done, extracted", len(jobs))
 }
 
@@ -99,21 +99,40 @@ func getPages() int {
 	return pages
 }
 
-func writeJob(jobs []extractedJob) {
-	file, err := os.Create("jobs.csv")
+func writeJobs(jobs []extractedJob) {
+	//file, err := os.Create("jobs.csv")
+	//checkErr(err)
+	//w := csv.NewWriter(file)
+
+	csv, err := ccsv.NewCsvWriter("jobs.csv")
 	checkErr(err)
-	w := csv.NewWriter(file)
-	defer w.Flush()
+
+	defer csv.Flush()
 
 	headers := []string{"ID", "Title", "Location", "Salary", "Summary"}
-	wErr := w.Write(headers)
-	checkErr(wErr)
+	csvErr := csv.Write(headers)
+	checkErr(csvErr)
+
+	c := make(chan []string)
 
 	for _, job := range jobs {
-		jobSlice := []string{"https://kr.indeed.com/viewjob?jk=" + job.id, job.title, job.location, job.salary, job.summary}
-		jwErr := w.Write(jobSlice)
+		// jobSlice := []string{"https://kr.indeed.com/viewjob?jk=" + job.id, job.title, job.location, job.salary, job.summary}
+		// jwErr := w.Write(jobSlice)
+		// checkErr(jwErr)
+		go makeTable(job, c)
+	}
+
+	for i := 0; i < len(jobs); i++ {
+		job := <-c
+		jwErr := csv.Write(job)
 		checkErr(jwErr)
 	}
+
+}
+
+func makeTable(job extractedJob, c chan<- []string) {
+	jobSlice := []string{"https://kr.indeed.com/viewjob?jk=" + job.id, job.title, job.location, job.salary, job.summary}
+	c <- jobSlice
 }
 
 func checkErr(err error) {
