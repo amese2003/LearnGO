@@ -29,14 +29,6 @@ func StartScrapperServer() {
 	e.Logger.Fatal(e.Start(":4000"))
 }
 
-func nextValue() func() int {
-	i := 0
-	return func() int {
-		i++
-		return i
-	}
-}
-
 func main() {
 	//var idMap map[int]string
 
@@ -48,8 +40,13 @@ func main() {
 
 	// fmt.Println(idMap["Tester"])
 
-	next := nextValue()
-	fmt.Println(next())
-	fmt.Println(next())
+	var a []int
+
+	a = append(a, 1)
+	a = append(a, 2)
+
+	for i := 0; i < 2; i++ {
+		fmt.Println(a[i])
+	}
 
 }
