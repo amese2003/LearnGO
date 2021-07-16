@@ -29,15 +29,27 @@ func StartScrapperServer() {
 	e.Logger.Fatal(e.Start(":4000"))
 }
 
+func nextValue() func() int {
+	i := 0
+	return func() int {
+		i++
+		return i
+	}
+}
+
 func main() {
 	//var idMap map[int]string
 
 	//idMap = make(map[int]string)
 
-	idMap := map[string]string{
-		"Tester": "task",
-	}
+	// idMap := map[string]string{
+	// 	"Tester": "task",
+	// }
 
-	fmt.Println(idMap["Tester"])
+	// fmt.Println(idMap["Tester"])
+
+	next := nextValue()
+	fmt.Println(next())
+	fmt.Println(next())
 
 }
