@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"strings"
 
@@ -21,9 +22,22 @@ func handleScrape(c echo.Context) error {
 	return c.Attachment(fileName, fileName)
 }
 
-func main() {
+func StartScrapperServer() {
 	e := echo.New()
 	e.GET("/", handleHome)
 	e.POST("/scrape", handleScrape)
 	e.Logger.Fatal(e.Start(":4000"))
+}
+
+func main() {
+	//var idMap map[int]string
+
+	//idMap = make(map[int]string)
+
+	idMap := map[string]string{
+		"Tester": "task",
+	}
+
+	fmt.Println(idMap["Tester"])
+
 }
