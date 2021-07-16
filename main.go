@@ -4,12 +4,11 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"sync"
+	"time"
 
 	"github.com/amese1225/LearnGO/scrapper"
 	"github.com/labstack/echo"
-
-	queue "./src/queue"
-	stack "./src/stack"
 )
 
 const fileName string = "jobs.csv"
@@ -32,62 +31,24 @@ func StartScrapperServer() {
 	e.Logger.Fatal(e.Start(":4000"))
 }
 
+func test(s string) {
+	for i := 0; i < len(s); i++ {
+		fmt.Println(s[i])
+	}
+}
+
 func main() {
-	//var idMap map[int]string
 
-	//idMap = make(map[int]string)
+	go test("Async")
 
-	// idMap := map[string]string{
-	// 	"Tester": "task",
-	// }
+	var wait sync.WaitGroup
+	wait.Add(1)
 
-	// fmt.Println(idMap["Tester"])
+	go func() {
+		time.Sleep(time.Second * 3)
+		fmt.Println("Test!")
+		defer wait.Done()
+	}()
 
-	// var a []int
-
-	// a = append(a, 1)
-	// a = append(a, 2)
-
-	// for i := 0; i < 2; i++ {
-	// 	fmt.Println(a[i])
-	// }
-
-	a := queue.Queue{}
-
-	a.Push(30)
-	a.Push(40)
-
-	fmt.Println(a.Size())
-
-	fmt.Println(a.Peek())
-
-	data, err := a.Pop()
-
-	if err == nil {
-		fmt.Println(data)
-	}
-
-	b := stack.Stack{}
-
-	b.Push(10)
-	b.Push(20)
-	b.Push(300)
-
-	stkData, stkerr := b.Top()
-
-	if stkerr == nil {
-		fmt.Println(stkData)
-	} else {
-		fmt.Println(stkerr)
-	}
-
-	for i := 0; i < 3; i++ {
-		popData, popErr := b.Pop()
-
-		if popErr == nil {
-			fmt.Println(popData)
-		}
-	}
-
-	fmt.Println(b.Size())
+	wait.Wait()
 }
